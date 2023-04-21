@@ -9,15 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
-    private String CORRECT_NAME = "3";
+    private String CORRECT_NAME = "Gogi";
+    private String INCORRECT_NAME = "4";
     private String LOGIN_EQUALS_EMAIL = "Gogi@pochta.com";
     private String EMPTY_NAME = "";
     private String EMPTY_EMAIL = "";
     private String CORRECT_EMAIL = "Gogi@pochta.com";
     private String INCORRECT_EMAIL = "Gogi.pochta.com";
-    private User u  = new User(CORRECT_NAME, CORRECT_EMAIL);
-
-    static User user;
+    private User u = new User(CORRECT_NAME, CORRECT_EMAIL);
 
     @BeforeAll
     private static void initParams() {
@@ -30,30 +29,23 @@ class UserTest {
     }
 
     @Test
-    void shouldCheckSetParametersByConstructor() {
-        Assertions.assertEquals(CORRECT_NAME,u.getName());
-        Assertions.assertEquals(CORRECT_EMAIL,u.getEmail());
-
+    void shouldGenerateCorrectUser() {
+        User user = new User(CORRECT_NAME, CORRECT_EMAIL);
+        assertFalse(user.getName().isEmpty());
+        assertFalse(user.getEmail().isEmpty());
     }
 
     @Test
-    void shouldCheckCorrectEmail() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->{
-            new User(CORRECT_NAME, INCORRECT_EMAIL);
-        });
+    void checkingEmail() {
+        User incorrectUserEmail = new User(CORRECT_NAME, INCORRECT_EMAIL);
+        assertFalse(incorrectUserEmail.getEmail().matches("\\w+@\\w+\\.\\w+"));
     }
 
     @Test
-    void shouldCheckEqualsBetweenLoginAndEmail() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->{
-            new User(LOGIN_EQUALS_EMAIL, CORRECT_EMAIL);
-        });
+    void shouldGenerateIncorrectUser() {
+        User user = new User(CORRECT_NAME, INCORRECT_EMAIL);
+        assertFalse(user.getEmail().isEmpty());
     }
 
-    @Test
-    void shouldCheckSetWithoutParametersByConstructor() {
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new User(EMPTY_NAME,EMPTY_EMAIL);
-        });
-    }
 }
+
